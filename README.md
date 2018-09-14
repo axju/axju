@@ -17,7 +17,7 @@ python3 -m venv venv
 source venv/bin/activate
 pip install --upgrade wheel pip setuptools twine
 ```
-Install wpexport:
+Install local:
 ```bash
 pip install -e .
 ```
