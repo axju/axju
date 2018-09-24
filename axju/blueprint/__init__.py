@@ -10,8 +10,8 @@ class Blueprint(BasicCli):
 
     def __init__(self, **kwargs):
         super(Blueprint, self).__init__()
-        if 'settings' in kwargs:
-            self.settings = kwargs.get('settings', {})
+
+        self.settings = kwargs.get('settings', {})
 
     def __dirs(self):
         return self.settings.get('dirs', [])
