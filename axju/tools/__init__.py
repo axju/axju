@@ -4,10 +4,3 @@ python -m axju.tools help   # print help
 python -m axju.tools list   # list all commands
 
 """
-
-commands = {
-    'blueprint': {},
-    'history': {},
-    'venv': {},
-    'update': {},
-}

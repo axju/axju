@@ -1,6 +1,6 @@
 import argparse
 
-from axju.me import AxJu
+#from axju.me import AxJu
 from axju.__about__ import __version__
 
 def main():
