@@ -41,6 +41,8 @@ class Alias(object):
             print(arg)
 
 
+
+
 class System(object):
     """docstring for Blueprint."""
 
@@ -78,4 +80,8 @@ class System(object):
 
     def setup(self):
         """Install all your programms"""
+        pass
+
+    def update(self):
+        """Update the project(s)"""
         pass
