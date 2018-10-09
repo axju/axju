@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 base_dir = os.path.dirname(__file__)
 
 def readme():
-    with open('README.md') as f:
+    with open('README.rst') as f:
         return f.read()
 
 about = {}
@@ -20,17 +20,18 @@ setup(
     author_email=about['__email__'],
     license=about['__license__'],
     long_description=readme(),
-    long_description_content_type='text/markdown',
+    #long_description_content_type='text/markdown',
     keywords='github wordpress backup sync',
     packages=find_packages(),
     install_requires=[
+        'gitpython',
     ],
     entry_points = {
-        'console_scripts': [
-            'axju-templates=axju.func:templates_cli',
-            'axju-system=axju.func:system_cli',
-            'axju-alias=axju.func:alias_cli',
-        ],
+        #'console_scripts': [
+        #    'axju-templates=axju.func:templates_cli',
+        #    'axju-system=axju.func:system_cli',
+        #    'axju-alias=axju.func:alias_cli',
+        #],
     },
     include_package_data=True,
     zip_safe=False

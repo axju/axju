@@ -17,8 +17,9 @@ Functions
   axju setup
   axju me
 
-  axju-sys install
-  axju-sys update
+  axju-sys create  # create the folder structure
+  axju-sys install # install the programms
+  axju-sys update  # update the os and programms
 
   axju-proj show
   axju-proj open --ide atom <name|dir|.>
