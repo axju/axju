@@ -43,7 +43,7 @@ class Projects(Basic):
                 author = git.Actor(self.settings.get('name'), self.settings.get('email'))
                 repo.index.commit(commit, author=author)
                 #repo.index.commit(commit)
-            result = repo.remotes.origin.push()[0]
+            result = repo.remotes.origin.push()
             for r in result:
                 print('[*]', entry[0], r.summary[:-1])
             #except:
