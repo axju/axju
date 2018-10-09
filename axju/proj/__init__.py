@@ -35,16 +35,15 @@ class Projects(Basic):
     def push(self, commit=''):
         """push all projects with a git repo"""
         for entry in self._list():
-            #try:
-            repo = git.Repo(entry[1])
-            if commit:
-                #repo.git.add(update=True)
-                repo.git.add(A=True)
-                author = git.Actor(self.settings.get('name'), self.settings.get('email'))
-                repo.index.commit(commit, author=author)
-                #repo.index.commit(commit)
-            result = repo.remotes.origin.push()
-            for r in result:
-                print('[*]', entry[0], r.summary[:-1])
-            #except:
-                #print('[!]', entry[0])
+            try:
+                repo = git.Repo(entry[1])
+                if commit:
+                    repo.git.add(update=True)
+                    repo.git.add(A=True)
+                    author = git.Actor(self.settings.get('name'), self.settings.get('email'))
+                    repo.index.commit(commit, author=author)
+                    repo.index.commit(commit)
+                result = repo.remotes.origin.push()[0]
+                print('[*]', entry[0], result.summary[:-1])
+            except:
+                print('[!]', entry[0])
