@@ -44,6 +44,7 @@ class Projects(Basic):
                 repo.index.commit(commit, author=author)
                 #repo.index.commit(commit)
             result = repo.remotes.origin.push()[0]
-            print('[*]', entry[0], result.summary[:-1])
+            for r in result:
+                print('[*]', entry[0], r.summary[:-1])
             #except:
                 #print('[!]', entry[0])
