@@ -1,6 +1,13 @@
 axju
 ====
-comming soon.
+.. image:: https://img.shields.io/gitter/room/nwjs/nw.js.svg
+  :alt: Gitter
+  :target: https://gitter.im/axju/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link
+
+.. image:: https://img.shields.io/twitter/url/https/github.com/axju/axju.svg?style=social
+  :alt: Twitter
+  :target: https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Faxju%2Faxju
+
 
 Install
 -------
