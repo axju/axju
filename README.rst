@@ -20,15 +20,22 @@ Functions
 ---------
 ::
 
-  axju help
+  axju --help
   axju setup
   axju me
+
+  axju-proj list
+  axju-proj push --commit "text"
+
+
+Coming soon
+-----------
+::
 
   axju-sys create  # create the folder structure
   axju-sys install # install the programms
   axju-sys update  # update the os and programms
 
-  axju-proj show
   axju-proj open --ide atom <name|dir|.>
   axju-proj update <name|dir|.>
   axju-proj backup <name|dir|.>

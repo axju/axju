@@ -5,7 +5,7 @@ def obj2cli(obj, **kwargs):
     parser = argparse.ArgumentParser(
         prog=obj.__class__.__name__,
         description=obj.__class__.__doc__,
-        epilog="This CLI uses the obj2cli function, by axju",
+        epilog="This CLI uses the axju.cli module, by axju",
     )
 
     if '__version__' in obj.__class__.__dict__:

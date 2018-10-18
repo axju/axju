@@ -27,11 +27,11 @@ setup(
         'gitpython',
     ],
     entry_points = {
-        #'console_scripts': [
-        #    'axju-templates=axju.func:templates_cli',
-        #    'axju-system=axju.func:system_cli',
+        'console_scripts': [
+            'axju=axju.__main__:main',
+            'axju-proj=axju.proj.__main__:main',
         #    'axju-alias=axju.func:alias_cli',
-        #],
+        ],
     },
     include_package_data=True,
     zip_safe=False
