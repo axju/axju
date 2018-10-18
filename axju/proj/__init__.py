@@ -7,12 +7,18 @@ class Projects(Basic):
     """ """
     __version__ = '0.0.1'
 
+    def __init__(self, project='', **kwargs):
+        super(Projects, self).__init__(**kwargs)
+        self.project = project
+
     def _list(self):
         l = list()
         for entry in os.scandir(self.settings.get('dirs').get('project')):
             if not entry.name.startswith('.') and entry.is_dir():
                 l.append((entry.name, entry.path))
-        return l        
+                if self.project == entry.name:
+                    return [(entry.name, entry.path)]
+        return l
 
     def list(self):
         """list all project in yourproject folder"""
