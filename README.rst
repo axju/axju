@@ -68,3 +68,8 @@ Publish the packages::
 
   python setup.py sdist bdist_wheel
   twine upload dist/*
+
+Run some tests::
+
+  tox
+  python setup.py test
