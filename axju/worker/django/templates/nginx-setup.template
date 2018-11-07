@@ -1,0 +1,4 @@
+mkdir {{ folder }}/logs
+sudo ln -s /etc/nginx/sites-available/{{ project }} /etc/nginx/sites-enabled/{{ project }}
+sudo rm /etc/nginx/sites-enabled/default
+sudo service nginx restart

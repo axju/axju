@@ -19,24 +19,24 @@ setup(
     author=about['__author__'],
     author_email=about['__email__'],
     license=about['__license__'],
+
+    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     long_description=readme(),
-    #long_description_content_type='text/markdown',
-    keywords='github wordpress backup sync',
-    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+
     install_requires=[
-        'gitpython',
+        'jinja2',
     ],
+
     entry_points = {
         'console_scripts': [
             'axju=axju.__main__:main',
-            'axju-proj=axju.proj.__main__:main',
-        #    'axju-alias=axju.func:alias_cli',
+            'axju-django=axju.worker.django.__main__:main',
         ],
     },
-    test_suite='nose.collector',
-    tests_require=['nose'],
-    include_package_data=True,
-    zip_safe=False,
+
+    keywords='git django deploying devops',
     classifiers=[
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',

@@ -7,7 +7,7 @@ __title__ = 'axju'
 __summary__ = 'This is my personal package'
 __url__ = 'https://github.com/axju/axju'
 
-__version__ = '0.0.2'
+__version__ = '0.0.3a1'
 
 __author__ = 'Axel Juraske'
 __email__ = 'axel.juraske@short-report.de'

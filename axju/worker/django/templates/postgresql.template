@@ -1,0 +1,6 @@
+sudo apt -y install postgresql postgresql-contrib
+sudo su - postgres
+createuser {{ db.USER }}
+createdb {{ db.NAME }} --owner {{ db.USER }}
+psql -c "ALTER USER {{ db.USER }} WITH PASSWORD '{{ db.PASSWORD }}'"
+exit

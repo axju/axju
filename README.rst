@@ -9,6 +9,9 @@ axju
   :alt: Twitter
   :target: https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Faxju%2Faxju
 
+This small project help me, to automate boring stuff. It started with deploying
+django, but where will coming more. Hopefully
+
 
 Install
 -------
@@ -16,36 +19,12 @@ Install
 
   pip install axju
 
-
 Functions
 ---------
 ::
 
-  axju --help
-  axju setup
-  axju me
-
-  axju-proj list
-  axju-proj push --commit "text"
-
-
-Coming soon
------------
-::
-
-  axju-sys create  # create the folder structure
-  axju-sys install # install the programms
-  axju-sys update  # update the os and programms
-
-  axju-proj open --ide atom <name|dir|.>
-  axju-proj update <name|dir|.>
-  axju-proj backup <name|dir|.>
-  axju-proj push <name|dir|.>
-
-  axju-alias <name>
-
-  axju-temp package
-  axju-temp readme
+  axju
+  axju-django
 
 
 Development
@@ -58,7 +37,7 @@ Create virtual environment and update dev-tools::
 
   python3 -m venv venv
   source venv/bin/activate
-  pip install --upgrade wheel pip setuptools twine
+  pip install --upgrade wheel pip setuptools twine tox
 
 Install local::
 
