@@ -1,7 +1,20 @@
 import logging
 import argparse
 
-def setup_logger(verbose, file):
+def setup_logger(verbose=False, file=''):
+    """Setup the logger
+
+    Args:
+
+       - verbose (bool):  Set level to DEBUG if True
+       - file (str):  Set the logfile
+
+    Returns:
+
+       - logger
+
+    >>> setup_logger(True, '')
+    """
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 

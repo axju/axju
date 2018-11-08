@@ -43,12 +43,16 @@ Install local::
 
   pip install -e .
 
-Publish the packages::
-
-  python setup.py sdist bdist_wheel
-  twine upload dist/*
-
 Run some tests::
 
   tox
   python setup.py test
+
+Make the documentation::
+
+  docs/make.bat html
+
+Publish the packages::
+
+  python setup.py sdist bdist_wheel
+  twine upload dist/*
