@@ -1,11 +1,15 @@
 import os, sys
 import importlib.util
 
-from axju.core.basic import BasicWorker
+from axju.core import TemplateWorker, ArgparseMixin
 from axju.worker.django.settings import STEPS
 
-class DjangoWorker(BasicWorker):
+class DjangoWorker(TemplateWorker):
     """This class load the django settings"""
+
+    steps = STEPS
+
+    templates = ('axju', 'worker/django/templates/')
 
     APP_PIP = {
         'crispy_forms': 'django-crispy-forms',
@@ -16,19 +20,19 @@ class DjangoWorker(BasicWorker):
         '', 'development', 'production'
     ]
 
-    def __init__(self, folder='.', setting=''):
-        super(DjangoWorker, self).__init__(steps=STEPS, templates=('axju', 'worker/django/templates/'))
+    folder = '.'
 
-        print( folder, setting)
-
-        self.folder = os.path.abspath(folder)
-        self.project = os.path.basename(self.folder)
-
-        sys.path.append(self.folder)
-        self.settings = self.__load_settings(setting)
+    setting = ''
 
     def __str__(self):
         return '>>{}<< {}'.format(self.project, self.folder)
+
+    def load_project(self, folder, setting):
+        self.folder = os.path.abspath(folder)
+        self.project = os.path.basename(self.folder)
+
+        sys.path.append(self.args.folder)
+        self.settings = self.__load_settings(setting)
 
     def render_data(self):
         data = super(DjangoWorker, self).render_data()
@@ -70,8 +74,14 @@ class DjangoWorker(BasicWorker):
         s = '{}.settings'.format(self.project)
         if setting_name: s += '.{}'.format(setting_name)
 
-        self.logger.debug('Load "%s" as the setting module', s)
-        return __import__(s, fromlist=[''])
+        try:
+            self.logger.debug('Load "%s" as the setting module', s)
+            return __import__(s, fromlist=[''])
+        except ImportError:
+            self.logger.error('No django settings')
+            sys.exit()
+
+
 
 
     def find_settings(self):
@@ -120,3 +130,16 @@ class DjangoWorker(BasicWorker):
 
         if engine == 'django.db.backends.postgresql':
             self.run('postgresql')
+
+
+class ArgparseDjangoWorker(ArgparseMixin, DjangoWorker):
+
+    def setup_parser(self):
+        parser = super(ArgparseDjangoWorker, self).setup_parser()
+        parser.add_argument('--folder', type=str, default='.', help='The django project folder.')
+        parser.add_argument('--setting', type=str, default='', help='Change the default the settings.')
+        return parser
+
+    def parse(self, args=None):
+        super(ArgparseDjangoWorker, self).parse(args)
+        self.load_project(self.args.folder, self.args.setting)

@@ -32,7 +32,7 @@ setup(
     entry_points = {
         'console_scripts': [
             'axju=axju.__main__:main',
-            'axju-django=axju.worker.django.__main__:main',
+            'django-deploying=axju.worker.django.__main__:main',
         ],
     },
 
