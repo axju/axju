@@ -10,18 +10,13 @@ class WorkLoader(object):
     def load_object(self, name, obj):
         self.worker[name] = obj
 
-    def load_class(self, name, cls):
-        self.worker[name] = cls()
+    def load_class(self, cls):
+        if isinstance(cls, str):
+            components = cls.split('.')
+            mod = __import__('.'.join(components[:-1]), fromlist=[components[-1]])
+            cls = getattr(mod, components[-1])
 
-    def load_class_str(self, name, cls):
-        components = name.split('.')
-        mod = __import__(components[0])
-        for comp in components[1:]:
-            mod = getattr(mod, comp)
-        self.worker[name] = mod()
-
-        #mod = __import__('my_package.my_module', fromlist=['my_class'])
-        #klass = getattr(mod, 'my_class')
+        self.worker[components[-1]] = cls()
 
     def load_directory(self, dir):
         pass

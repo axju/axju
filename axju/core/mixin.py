@@ -27,7 +27,6 @@ class ArgparseMixin(object):
         else:
             ch.setLevel(logging.INFO)
         self.logger.addHandler(ch)
-        print('add logger')
 
         if kwargs.get('file', False):
             fh = logging.FileHandler(kwargs.get('file'))
@@ -36,8 +35,8 @@ class ArgparseMixin(object):
             self.logger.addHandler(fh)
 
     def parse(self, args=None):
-        print('parse')
-        self.args = self.parser.parse_args(args)
+        #self.args = self.parser.parse_args(args)
+        self.args, unknown = self.parser.parse_known_args(args)
         self.setup_logger(verbose=self.args.verbose, file=self.args.log)
 
     def run(self, args=None):

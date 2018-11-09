@@ -1,5 +1,4 @@
 import argparse
-import sys
 from axju.tools import WorkLoader
 from axju.worker.django import ArgparseDjangoWorker
 from axju.worker.git import GitWorker
@@ -9,23 +8,23 @@ def main():
 
     parser.add_argument('--directory', type=str, help='...')
     parser.add_argument('--file', type=str, help='...')
+    parser.add_argument('--cls', type=str, help='...')
     parser.add_argument('--show', action='store_true', help='...')
     parser.add_argument('--setup', action='store_true', help='...')
     parser.add_argument('worker', nargs='?', help='...')
 
-    #subparsers = parser.add_subparsers(help='worker', dest='worker')
-    args = parser.parse_args()
+    args, unknown = parser.parse_known_args()
 
     loader = WorkLoader()
-    n = 2
 
     if args.file:
         loader.load_file(args.file)
-        n += 2
 
     if args.directory:
         loader.load_directory(args.directory)
-        n += 2
+
+    if args.cls:
+        loader.load_class(args.cls)
 
     if not loader.worker:
         loader.load_class('django', ArgparseDjangoWorker)
@@ -33,7 +32,14 @@ def main():
 
     if args.show: return loader.show()
 
-    if args.worker: return loader.run(args.worker, sys.argv[n:])
+    if args.worker:
+        if args.worker in loader.worker:
+            return loader.run(args.worker, unknown)
+        else:
+            unknown.append(args.worker)
+
+    if len(loader.worker) == 1:
+        return loader.run(list(loader.worker.keys())[0], unknown)
 
     parser.print_help()
 
