@@ -79,7 +79,7 @@ class DjangoWorker(TemplateWorker):
             return __import__(s, fromlist=[''])
         except ImportError:
             self.logger.error('No django settings')
-            sys.exit()
+            #sys.exit()
 
 
 

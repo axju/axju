@@ -7,16 +7,18 @@ class WorkLoader(object):
     def __init__(self):
         self.worker = {}
 
-    def load_object(self, name, obj):
+    def load_object(self, obj, name):
         self.worker[name] = obj
 
-    def load_class(self, cls):
+    def load_class(self, cls, name=None):
         if isinstance(cls, str):
             components = cls.split('.')
             mod = __import__('.'.join(components[:-1]), fromlist=[components[-1]])
             cls = getattr(mod, components[-1])
 
-        self.worker[components[-1]] = cls()
+        if not name: name = components[-1]
+        
+        self.worker[name] = cls()
 
     def load_directory(self, dir):
         pass
