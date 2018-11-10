@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME="short-report"
+NAME="{{ project }}"
 DIR={{ folder }}
 USER={{ user }}
 GROUP={{ user}}

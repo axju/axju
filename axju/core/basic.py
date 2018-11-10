@@ -1,4 +1,5 @@
 import os, sys
+import getpass
 import logging
 import subprocess
 import tempfile
@@ -26,7 +27,7 @@ class StepWorker(object):
         p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
 
         for command in commands:
-            self.logger.info('run command "%s"', command)
+            self.logger.debug('run command "%s"', command)
             p.stdin.write(str(command + "\n").encode())
             p.stdin.flush()
 
@@ -37,7 +38,7 @@ class StepWorker(object):
 
     def render_data(self):
         return {
-            'user': os.getlogin(),
+            'user': getpass.getuser(),
         }
 
     def render_str(self, s):

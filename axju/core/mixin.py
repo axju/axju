@@ -35,7 +35,6 @@ class ArgparseMixin(object):
             self.logger.addHandler(fh)
 
     def parse(self, args=None):
-        #self.args = self.parser.parse_args(args)
         self.args, unknown = self.parser.parse_known_args(args)
         self.setup_logger(verbose=self.args.verbose, file=self.args.log)
 

@@ -1,9 +1,12 @@
 """This file contains some defaults for the django worker"""
 
 STEPS = {
+    'test': {
+        'commands': ['ls'],
+    },
     'run': {
         'info': 'Run all steps',
-        'steps': ['prepare', 'requirement', 'setupdb', 'project', 'nginx'],
+        'steps': ['prepare', 'requirement', 'setupdb', 'project', 'nginx', 'gunicorn', 'supervisor'],
     },
     'prepare': {
         'info': 'Prepare the system',
@@ -70,6 +73,28 @@ STEPS = {
             'mkdir {{ folder }}/run',
             'mkdir {{ folder }}/logs',
             'touch {{ folder }}/logs/gunicorn.log'
+        ],
+    },
+    'supervisor': {
+        'steps': ['supervisor-install', 'supervisor-file', 'supervisor-setup'],
+    },
+    'supervisor-install': {
+        'commands': [
+            'sudo apt -y install supervisor',
+            'sudo systemctl enable supervisor',
+            'sudo systemctl start supervisor',
+        ],
+    },
+    'supervisor-file': {
+        'template': 'supervisor-file.template',
+        'filename': '/etc/supervisor/conf.d/{{ project }}.conf',
+        'sudo': True,
+    },
+    'supervisor-setup': {
+        'commands': [
+            'sudo supervisorctl reread',
+            'sudo supervisorctl update',
+            'sudo supervisorctl status {{ project }}',
         ],
     },
 }

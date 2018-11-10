@@ -1,0 +1,7 @@
+[program:{{ project }}]
+command={{ folder }}/gunicorn_start
+user={{ user}}
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile={{ folder }}/logs/gunicorn.log'

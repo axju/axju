@@ -31,8 +31,10 @@ class DjangoWorker(TemplateWorker):
         self.folder = os.path.abspath(folder)
         self.project = os.path.basename(self.folder)
 
-        sys.path.append(self.args.folder)
+        sys.path.append(self.folder)
         self.settings = self.__load_settings(setting)
+
+        print('load_project', setting)
 
     def render_data(self):
         data = super(DjangoWorker, self).render_data()
@@ -49,6 +51,8 @@ class DjangoWorker(TemplateWorker):
 
             if getattr(self.settings, 'HOST', None):
                 data['host'] = self.settings.HOST
+
+            #print('host', data['host'])
 
             if 'host' not in data and getattr(self.settings, 'ALLOWED_HOSTS', None):
                 data['host'] = self.settings.ALLOWED_HOSTS[0]
@@ -129,7 +133,7 @@ class DjangoWorker(TemplateWorker):
         engine = config['ENGINE']
 
         if engine == 'django.db.backends.postgresql':
-            self.run('postgresql')
+            self.run_step('postgresql')
 
 
 class ArgparseDjangoWorker(ArgparseMixin, DjangoWorker):

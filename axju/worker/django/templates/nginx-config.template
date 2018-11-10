@@ -4,7 +4,7 @@ upstream app_server {
 
 server {
     listen 80;
-    server_name 192.168.178.51;
+    server_name {{ host }};
 
     keepalive_timeout 5;
     client_max_body_size 4G;
@@ -12,8 +12,12 @@ server {
     access_log {{ folder }}/logs/nginx-access.log;
     error_log {{ folder }}/logs/nginx-error.log;
 
-    location /static/ {
-        alias {{ settings.STATIC_ROOT }};
+    location {{ settings.STATIC_URL }} {
+        alias {{ settings.STATIC_ROOT }}/;
+    }
+
+    location {{ settings.MEDIA_URL }} {
+        alias {{ settings.MEDIA_ROOT }}/;
     }
 
     # checks for static file, if not found proxy to app
