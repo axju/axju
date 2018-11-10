@@ -4,4 +4,4 @@ user={{ user}}
 autostart=true
 autorestart=true
 redirect_stderr=true
-stdout_logfile={{ folder }}/logs/gunicorn.log'
+stdout_logfile={{ folder }}/logs/gunicorn.log
