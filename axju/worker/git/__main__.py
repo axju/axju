@@ -1,4 +1,4 @@
-from axju.core.tools import SmartCLI
+'''from axju.core.tools import SmartCLI
 from axju.worker.git import GitWorker
 
 def main():
@@ -7,3 +7,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+'''

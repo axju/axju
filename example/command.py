@@ -1,6 +1,6 @@
-from axju.core import StepWorker, ArgparseMixin
+from axju.generic import BasicWorker
 
-class Worker(ArgparseMixin, StepWorker):
+class Worker(BasicWorker):
     steps = {
         'run':{
             'info': 'Do stupid stuff',
@@ -23,11 +23,11 @@ class Worker(ArgparseMixin, StepWorker):
 
 if __name__ == '__main__':
     w = Worker()
-    w.run()
+    w.cli()
 
     #w = Worker()
-    #w.run(['dir'])
+    #w.cli(['dir'])
 
     #w = Worker()
     #w.parse()
-    #w.run()
+    #w.cli()

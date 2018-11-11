@@ -2,7 +2,7 @@
 
 STEPS = {
     'test': {
-        'commands': ['ls'],
+        'commands': ['echo "TEST"'],
     },
     'run': {
         'info': 'Run all steps',

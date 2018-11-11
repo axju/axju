@@ -1,8 +1,8 @@
 import argparse
 import sys
 from axju.tools import WorkLoader
-from axju.worker.django import ArgparseDjangoWorker
-from axju.worker.git import GitWorker
+
+from axju.worker import WORKER
 
 def run_one(loader, show):
     name = list(loader.worker.keys())[0]
@@ -39,8 +39,8 @@ def main():
     if args.directory:
         loader.load_directory(args.directory)
     else:
-        loader.load_class(ArgparseDjangoWorker, 'django')
-        loader.load_class(GitWorker, 'git')
+        for name, cls in WORKER.items():
+            loader.load_class(cls, name)
 
     if args.worker:
         if args.show:

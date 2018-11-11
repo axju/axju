@@ -1,4 +1,4 @@
-from axju.core import ArgparseMixin
+from axju.generic import BasicWorker
 
-class GitWorker(ArgparseMixin):
+class GitWorker(BasicWorker):
     pass
