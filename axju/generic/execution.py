@@ -55,3 +55,13 @@ class ExecutionWorker(BasicWorker):
             self.logger.info('finished step "%s"', name)
 
         return step
+
+    def export(self, name, file):
+        step = super(ExecutionWorker, self).export(name, file)
+        if not step: return None
+
+        if 'commands' in step:
+            for c in self.render_commands(step['commands']):
+                file.write('{}\n'.format(c))
+
+        return step

@@ -4,13 +4,7 @@ from axju.worker.django import DjangoWorker
 
 def main():
     worker = DjangoWorker()
-
-    ch = logging.StreamHandler()
-    ch.setFormatter(logging.Formatter('%(asctime)s %(message)s'))
-    ch.setLevel(worker.logger.level)
-
-    worker.logger.addHandler(ch)
-
+    worker.logger_add_stream()
     worker.cli()
 
 if __name__ == '__main__':

@@ -42,3 +42,30 @@ class TemplateWorker(ExecutionWorker):
             self.logger.info('finished step "%s"', name)
 
         return step
+
+    def export(self, name, file):
+        step = super(TemplateWorker, self).export(name, file)
+        if not step: return None
+
+        if 'template' in step:
+            t = self.render_template(step['template'])
+
+            if 'filename' in step:
+                filename = self.render_str(step['filename'])
+
+                if step.get('sudo', False):
+                    file.write('sudo rm "{}"\n'.format(filename))
+                else:
+                    file.write('rm "{}"\n'.format(filename))
+
+                for c in t.split('\n'):
+                    if step.get('sudo', False):
+                        file.write('sudo echo "{}" > "{}"\n'.format(c, filename))
+                    else:
+                        file.write('echo "{}" > "{}"\n'.format(c, filename))
+
+            else:
+                for c in t.split('\n'):
+                    file.write('{}\n'.format(c))
+
+        return step

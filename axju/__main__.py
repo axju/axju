@@ -13,13 +13,14 @@ def run_one(loader, show):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Manage custom worker')
+    parser = argparse.ArgumentParser(description='Manage custom worker', add_help=False)
 
     parser.add_argument('--directory', type=str, help='...')
     parser.add_argument('--file', type=str, help='...')
     parser.add_argument('--cls', type=str, help='...')
     parser.add_argument('--show', action='store_true', help='...')
     parser.add_argument('--setup', action='store_true', help='...')
+    parser.add_argument('--help', action='store_true', help='Display this help text')
     parser.add_argument('worker', nargs='?', help='...')
 
     args, unknown = parser.parse_known_args()
@@ -33,7 +34,6 @@ def main():
     if args.cls:
         loader.load_class(args.cls)
         return run_one(loader, args.show)
-
 
     # multible worker load
     if args.directory:
@@ -51,6 +51,9 @@ def main():
 
     elif args.show:
         return loader.show()
+
+    elif args.help:
+        parser.print_help()
 
     parser.print_help()
 

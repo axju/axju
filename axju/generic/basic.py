@@ -21,9 +21,15 @@ class BasicWorker(object):
         """Set logger level to debug"""
         self.logger.setLevel(logging.DEBUG)
 
-    def logger_add_file(self, filename):
+    def logger_add_stream(self, format='%(asctime)s %(message)s'):
+        ch = logging.StreamHandler()
+        ch.setFormatter(logging.Formatter(format))
+        ch.setLevel(self.logger.level)
+        self.logger.addHandler(ch)
+
+    def logger_add_file(self, filename, format='%(asctime)s %(levelname)-8s %(message)s'):
         fh = logging.FileHandler(filename)
-        fh.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s %(message)s'))
+        fh.setFormatter(logging.Formatter(format))
         fh.setLevel(logging.DEBUG)
         self.logger.addHandler(fh)
 
@@ -31,8 +37,8 @@ class BasicWorker(object):
         if name not in self.steps:
             self.logger.warning('No step definition for "%s"', name)
             self.error = True
-            return False
-        return True
+            return None
+        return self.steps[name]
 
 
     def setup_parser(self):
@@ -40,7 +46,7 @@ class BasicWorker(object):
         parser.add_argument('-v', '--verbose', action='store_true', help='For debugging ;)')
         parser.add_argument('-l', '--log', type=str, help='Logfile')
         parser.add_argument('-s', '--steps', nargs='+', type=str, default=['run'], help='All the steps')
-        parser.add_argument('--export', type=str, help='Create a script')
+        parser.add_argument('--export', action='store', type=argparse.FileType('w'), dest='export', help='Create a script')
         parser.add_argument('--show', action='store_true', help='Show the steps.')
         return parser
 
@@ -51,9 +57,9 @@ class BasicWorker(object):
 
     def run(self, name):
         """Run the one step"""
-        if not self.check_step(name): return None
+        step = self.check_step(name)
+        if not step: return None
 
-        step = self.steps[name]
         self.logger.info('run step "%s"', name)
 
         if 'func' in step:
@@ -71,9 +77,22 @@ class BasicWorker(object):
     def export(self, name, file):
         """Export the step to a file. So you can this scrip to setup your
         system"""
-        if not self.check_step(name): return None
+        step = self.check_step(name)
+        if not step: return None
 
-        file.write('# Step: {}'.format(name))
+        file.write('\n# Step: {}\n'.format(name))
+        file.write('# ======{}\n'.format(len(name)*'='))
+
+        if 'func' in step:
+            func = getattr(self, step['func']+'_export', None)
+            if func:
+                func(file=file, **step.get('kwargs', {}))
+            else:
+                file.write('# No export function for "{}"\n'.format(step['func']))
+
+        elif 'steps' in step:
+            for s in step['steps']:
+                self.export(s, file)
 
         return step
 
@@ -89,8 +108,13 @@ class BasicWorker(object):
         if self.args.show:
             return self.show()
 
-        for step in self.args.steps:
-            self.run(step)
+        if self.args.export:
+            for step in self.args.steps:
+                self.export(step, self.args.export)
+
+        else:
+            for step in self.args.steps:
+                self.run(step)
 
 
     def show(self):

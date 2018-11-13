@@ -17,8 +17,9 @@ class WorkLoader(object):
             cls = getattr(mod, components[-1])
 
         if not name: name = components[-1]
-        
+
         self.worker[name] = cls()
+        self.worker[name].logger_add_stream()
 
     def load_directory(self, dir):
         pass
@@ -38,6 +39,6 @@ class WorkLoader(object):
     def run(self, name, argv):
         if name in self.worker:
             self.worker[name].parse(argv)
-            self.worker[name].run()
+            self.worker[name].run('run')
         else:
             print('error')
