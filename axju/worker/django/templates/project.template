@@ -1,4 +1,4 @@
-cd {{ folder }}
+cd "{{ folder }}"
 source venv/bin/activate
 python manage.py migrate --settings={{ setting }}
 python manage.py collectstatic --noinput --settings={{ setting }}

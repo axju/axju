@@ -119,6 +119,7 @@ class BasicWorker(object):
 
     def show(self):
         """Display some infos about the steps."""
-        n = max([ len(s) for s in self.steps ])
+        n = max([ len(s) for s in self.steps ] + [10])
+
         for step, data in self.steps.items():
             print(step.ljust(n+1, '.'), data.get('info', 'missing'), sep='')

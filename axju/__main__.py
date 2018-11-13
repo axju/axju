@@ -1,47 +1,56 @@
 import argparse
-import sys
+import os, sys
 from axju.tools import WorkLoader
 
 from axju.worker import WORKER
 
-def run_one(loader, show):
-    name = list(loader.worker.keys())[0]
-    if show:
-        return loader.worker[name].show()
-
-    return loader.run(name, sys.argv[3:])
-
 
 def main():
-    parser = argparse.ArgumentParser(description='Manage custom worker', add_help=False)
+    parser = argparse.ArgumentParser(description='Manage the worker', add_help=False)
 
-    parser.add_argument('--directory', type=str, help='...')
-    parser.add_argument('--file', type=str, help='...')
-    parser.add_argument('--cls', type=str, help='...')
-    parser.add_argument('--show', action='store_true', help='...')
-    parser.add_argument('--setup', action='store_true', help='...')
+    parser.add_argument('--directory', type=str, help='Load all files from the directory')
+    parser.add_argument('--file', nargs='+', type=str, help='Load the worker from a file')
+    parser.add_argument('--cls', nargs='+', type=str, help='Load one or more class')
+    parser.add_argument('--pre', action='store_true', help='Load the predefined worker')
+    parser.add_argument('--show', action='store_true', help='Show the different worker')
     parser.add_argument('--help', action='store_true', help='Display this help text')
-    parser.add_argument('worker', nargs='?', help='...')
+    parser.add_argument('worker', nargs='?', help='Select the worker')
 
     args, unknown = parser.parse_known_args()
     loader = WorkLoader()
 
-    # No worker name requirt only one worker load
+    # import some worker
     if args.file:
-        loader.load_file(args.file)
-        return run_one(loader, args.show)
+        for file in args.file:
+            loader.load_file(file)
 
     if args.cls:
-        loader.load_class(args.cls)
-        return run_one(loader, args.show)
+        for cls in args.cls:
+            loader.load_class(cls)
 
-    # multible worker load
     if args.directory:
         loader.load_directory(args.directory)
-    else:
+
+    elif not args.pre:
+        homedir = os.path.join(os.path.expanduser('~'), 'worker')
+        if os.path.isdir(homedir):
+            loader.load_directory(homedir)
+
+
+    # No worker name requirt only one worker load
+    if len(loader.worker) == 1:
+        name = list(loader.worker.keys())[0]
+        if args.show:
+            return loader.worker[name].show()
+
+        return loader.run(name, sys.argv[3:])
+
+    if len(loader.worker) == 0:
         for name, cls in WORKER.items():
             loader.load_class(cls, name)
 
+
+    # multible worker load
     if args.worker:
         if args.show:
             return loader.worker[args.worker].show()

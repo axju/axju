@@ -17,19 +17,23 @@ class WorkLoader(object):
             cls = getattr(mod, components[-1])
 
         if not name: name = components[-1]
-
         self.worker[name] = cls()
-        self.worker[name].logger_add_stream()
+
 
     def load_directory(self, dir):
-        pass
+        for file in os.listdir(dir):
+            if file.endswith(".py"):
+                filename = os.path.join(dir, file)
+                self.load_file(filename)
 
     def load_file(self, file):
         name = os.path.splitext(os.path.basename(file))[0]
         spec = importlib.util.spec_from_file_location(name, file)
         worker = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(worker)
-        self.worker[name] = worker.Worker()
+        cls = getattr(worker, 'Worker', None)
+        if cls:
+            self.worker[name] = cls()
 
     def show(self):
         print('Worker:')
@@ -39,6 +43,7 @@ class WorkLoader(object):
     def run(self, name, argv):
         if name in self.worker:
             self.worker[name].parse(argv)
-            self.worker[name].run('run')
+            self.worker[name].logger_add_stream()
+            self.worker[name].cli()
         else:
-            print('error')
+            print('Now worker "{}"'.format(name))

@@ -3,7 +3,7 @@ from axju.generic import BasicWorker
 class Worker(BasicWorker):
     steps = {
         'run':{
-            'info': 'Hello World',
+            'info': 'Print only Hello World',
             'func': 'hello',
         },
     }

@@ -51,18 +51,19 @@ class TemplateWorker(ExecutionWorker):
             t = self.render_template(step['template'])
 
             if 'filename' in step:
+                file.write('# Create a file:\n')
                 filename = self.render_str(step['filename'])
 
                 if step.get('sudo', False):
-                    file.write('sudo rm "{}"\n'.format(filename))
+                    file.write('sudo nano "{}"\n'.format(filename))
                 else:
-                    file.write('rm "{}"\n'.format(filename))
+                    file.write('nano "{}"\n'.format(filename))
 
+                file.write('# ---- begin file ----\n')
                 for c in t.split('\n'):
-                    if step.get('sudo', False):
-                        file.write('sudo echo "{}" > "{}"\n'.format(c, filename))
-                    else:
-                        file.write('echo "{}" > "{}"\n'.format(c, filename))
+                    file.write('{}\n'.format(c, filename))
+                file.write('# ----- end file -----\n')
+
 
             else:
                 for c in t.split('\n'):

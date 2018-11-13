@@ -19,6 +19,7 @@ class ExecutionWorker(BasicWorker):
         p = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT, shell=True)
 
         for command in commands:
+
             self.logger.debug('run command "%s"', command)
             p.stdin.write(str(command + "\n").encode())
             p.stdin.flush()

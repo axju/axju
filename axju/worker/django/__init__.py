@@ -2,9 +2,10 @@ import os, sys
 import importlib.util
 
 from axju.generic import TemplateWorker
+from axju.mixin.render import OSDataMixin
 from axju.worker.django.settings import STEPS
 
-class DjangoWorker(TemplateWorker):
+class DjangoWorker(OSDataMixin, TemplateWorker):
     """This class load the django settings"""
 
     steps = STEPS
