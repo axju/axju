@@ -103,8 +103,7 @@ class DjangoWorker(OSDataMixin, TemplateWorker):
         super(DjangoWorker, self).parse(args)
         self.load_project(self.args.folder, self.args.setting)
 
-    def install_requirement(self):
-        """Check the settings for dependencies and install thay"""
+    def get_requirement(self):
         packages = []
 
         for app in self.settings.INSTALLED_APPS:
@@ -120,14 +119,28 @@ class DjangoWorker(OSDataMixin, TemplateWorker):
         except:
             self.logger.exception('No email backendd')
 
+        return packages
+
+    def install_requirement(self):
+        """Check the settings for dependencies and install thay"""
+        packages = self.get_requirement()
+
         if packages:
             self.execute([
-                'cd {}'.format(self.folder),
+                'cd "{}"'.format(self.folder),
                 'python3 -m venv venv',
                 'source venv/bin/activate',
                 'pip install --upgrade {}'.format(' '.join(packages)),
                 'deactivate',
             ])
+
+    def install_requirement_export(self, file):
+        packages = self.get_requirement()
+        if packages:
+            file.write('source "{}/venv/bin/activate"\n'.format(self.folder))
+            file.write('pip install --upgrade {}\n'.format(' '.join(packages)))
+            file.write('deactivate\n')
+
 
     def setup_db(self):
         """Setup the right DB"""
@@ -135,4 +148,11 @@ class DjangoWorker(OSDataMixin, TemplateWorker):
         engine = config['ENGINE']
 
         if engine == 'django.db.backends.postgresql':
-            self.run_step('postgresql')
+            self.run('postgresql')
+
+    def setup_db_export(self, file):
+        config = self.settings.DATABASES['default']
+        engine = config['ENGINE']
+
+        if engine == 'django.db.backends.postgresql':
+            self.export('postgresql', file)
