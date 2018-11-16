@@ -39,7 +39,7 @@ To run your worker execute::
 
   axju simple
 
-Write more worker in your worker-folder. You can run them by::
+Write more worker in your worker-folder. You can run them with::
 
   axju "filename of the worker"
 

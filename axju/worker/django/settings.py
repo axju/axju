@@ -1,8 +1,15 @@
 """This file contains some defaults for the django worker"""
 
 STEPS = {
-    'test': {
-        'commands': ['echo "TEST"'],
+    'update': {
+        'info':'Update with git',
+        'commands': [
+            'cd "{{ folder }}"',
+            'git pull origin master',
+            'source venv/bin/activate',
+            'python manage.py migrate --settings={{ setting }}',
+            'python manage.py collectstatic --noinput --settings={{ setting }}',
+        ],
     },
     'run': {
         'info': 'Run all steps',
