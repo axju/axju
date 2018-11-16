@@ -5,7 +5,13 @@ from jinja2 import Environment, BaseLoader
 from axju.generic.basic import BasicWorker
 
 class ExecutionWorker(BasicWorker):
-    """..."""
+    """This worker can work with steps like:
+    {
+        'info': '....',
+        'commands': ['first command', 'second command'],
+    }
+    Very easy. Each command will be executed.
+    """
 
     def execute(self, commands):
         """Connect to the shell and execute multiple commands. It is necessary

@@ -2,7 +2,19 @@ import logging
 import argparse
 
 class BasicWorker(object):
-    """This is the basic structur of a worker class."""
+    """This worker can work with steps like:
+    {
+        'info': '....',
+        'func': 'functionname',
+    }
+    Execute a function aof the worker with the 'functionname'. Too uses the
+    export comand, write a function wir 'functionname'_export
+    {
+        'info': '....',
+        'steps': ['step 1', 'step 2'],
+    }
+    Run every step in the list.
+    """
 
     steps = {}
 

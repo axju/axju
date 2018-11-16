@@ -5,7 +5,17 @@ from jinja2 import Environment, BaseLoader, PackageLoader
 from axju.generic.execution import ExecutionWorker
 
 class TemplateWorker(ExecutionWorker):
-    """..."""
+    """This worker can work with steps like:
+    {
+        'info': '....',
+        'template': 'template name',
+        'filename': 'path to rendered template',
+        'sudo': True,
+    }
+    If the key template exist, this worker will execute the step. Only if the
+    key filename exist, the worker will save the template as a file. Otherwise,
+    it will interpreter lien as an commands and execute it.
+    """
 
     templates = None
 
